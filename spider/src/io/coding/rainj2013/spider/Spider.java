@@ -19,7 +19,7 @@ import org.nutz.lang.Strings;
 
 public class Spider {
 	private static String chartset = "utf-8";
-	private String cookie = "SUB=_2A254umhsDeTxGedH4lMT8SnLyzuIHXVYRQgkrDV6PUJbrdAKLU_WkW2PMoeAAq56cjk7pIX8BcXE5KGjFw..; gsid_CTandWM=4uYi2adb13bYaGzeXTEiQ8m0pbp;";
+	private String cookie = "此处填写新浪移动版(weibo.cn)的cookie";
 	Calendar calendar = Calendar.getInstance();
 	private static NutDao dao = Appcontext.getDao();
 
