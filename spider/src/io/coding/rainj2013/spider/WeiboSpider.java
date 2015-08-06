@@ -17,9 +17,9 @@ import org.jsoup.select.Elements;
 import org.nutz.dao.impl.NutDao;
 import org.nutz.lang.Strings;
 
-public class Spider {
+public class WeiboSpider {
 	private static String chartset = "utf-8";
-	private String cookie = "此处填写新浪移动版(weibo.cn)的cookie";
+	private String cookie = "这里填写手机新浪网（weibo.cn）的cookie";
 	Calendar calendar = Calendar.getInstance();
 	private static NutDao dao = Appcontext.getDao();
 
@@ -128,7 +128,7 @@ public class Spider {
 			String key;
 
 			for (int page = pages; page >0; page--) {
-				Thread.sleep(1500);
+				Thread.sleep(2000);
 				url = "weibo.cn/comment/" + weibo_key + "?page=" + page;
 				html = HttpUtil.get(url, chartset);
 				doc = Jsoup.parse(html);

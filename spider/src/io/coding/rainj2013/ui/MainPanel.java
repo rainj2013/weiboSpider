@@ -1,16 +1,18 @@
 package io.coding.rainj2013.ui;
 
-import io.coding.rainj2013.spider.Spider;
+import io.coding.rainj2013.spider.UserSpider;
+import io.coding.rainj2013.spider.WeiboSpider;
 
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+
+import javax.swing.JButton;
+import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
-import javax.swing.JLabel;
-import javax.swing.JButton;
 
+import org.nutz.http.HttpException;
 import org.nutz.lang.Strings;
-
-import java.awt.event.ActionListener;
-import java.awt.event.ActionEvent;
 
 public class MainPanel extends JPanel implements ActionListener{
 	/**
@@ -19,25 +21,30 @@ public class MainPanel extends JPanel implements ActionListener{
 	private static final long serialVersionUID = 1L;
 	private JTextField cookieField;
 	private JTextField keyField;
-	private Spider spider;
+	private WeiboSpider weiboSpider;
+	private UserSpider userSpider;
 	private JButton btnNewButton;
+	private JTextField minDepthField;
+	private JTextField maxDepthField;
+	private JButton btnCaptureUser;
 
 	/**
 	 * Create the panel.
 	 */
 	public MainPanel() {
-		spider = new Spider();
+		weiboSpider = new WeiboSpider();
+		userSpider = new UserSpider();
 		setLayout(null);
-		setBounds(0, 0, 720, 100);
+		setBounds(0, 0, 720, 159);
 		
 		JLabel lblCookie = new JLabel("cookie:");
 		lblCookie.setBounds(14, 13, 72, 18);
 		add(lblCookie);
 		
 		cookieField = new JTextField();
-		cookieField.setBounds(79, 10, 499, 24);
+		cookieField.setBounds(79, 10, 418, 24);
 		add(cookieField);
-		cookieField.setText(spider.getCookie());
+		cookieField.setText(weiboSpider.getCookie());
 		cookieField.setColumns(10);
 		
 		JLabel lblWeiboKey = new JLabel("key:");
@@ -45,29 +52,65 @@ public class MainPanel extends JPanel implements ActionListener{
 		add(lblWeiboKey);
 		
 		keyField = new JTextField();
-		keyField.setBounds(79, 55, 499, 24);
+		keyField.setBounds(79, 55, 418, 24);
 		add(keyField);
 		keyField.setColumns(10);
 		
-		btnNewButton = new JButton("Start");
+		btnNewButton = new JButton("capture weibo");
 		btnNewButton.addActionListener(this);
-		btnNewButton.setBounds(592, 9, 113, 67);
+		btnNewButton.setBounds(511, 9, 194, 67);
 		add(btnNewButton);
+		
+		btnCaptureUser = new JButton("capture user");
+		btnCaptureUser.addActionListener(this);
+		btnCaptureUser.setBounds(511, 83, 194, 67);
+		add(btnCaptureUser);
+		
+		JLabel lblStartDepth = new JLabel("min depth");
+		lblStartDepth.setBounds(14, 107, 86, 18);
+		add(lblStartDepth);
+		
+		minDepthField = new JTextField();
+		minDepthField.setBounds(101, 104, 86, 24);
+		add(minDepthField);
+		minDepthField.setColumns(10);
+		
+		JLabel lblMaxDepth = new JLabel("max depth");
+		lblMaxDepth.setBounds(311, 107, 86, 18);
+		add(lblMaxDepth);
+		
+		maxDepthField = new JTextField();
+		maxDepthField.setColumns(10);
+		maxDepthField.setBounds(411, 104, 86, 24);
+		add(maxDepthField);
 	}
 
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		if(e.getSource()==btnNewButton){
-			spider.setCookie(cookieField.getText());
+			weiboSpider.setCookie(cookieField.getText());
 			if(Strings.isBlank(keyField.getText())){
 				for(int i=30;i>0;i--){
-					spider.captureWeibo(i);
+					weiboSpider.captureWeibo(i);
 				}
 			}else{
-				spider.captureComment(keyField.getText());
+				weiboSpider.captureComment(keyField.getText());
+			}
+		}else if(e.getSource()==btnCaptureUser){
+			try {
+				userSpider.capture(keyField.getText(), Integer.parseInt(minDepthField.getText()), Integer.parseInt(maxDepthField.getText()));
+			} catch (NumberFormatException e1) {
+				e1.printStackTrace();
+			} catch (InstantiationException e1) {
+				e1.printStackTrace();
+			} catch (IllegalAccessException e1) {
+				e1.printStackTrace();
+			} catch (HttpException e1) {
+				System.out.println("连接超时");
+			}catch (Exception e1) {
+				System.out.println("抓取出错");
 			}
 		}
 		
 	}
-	
 }

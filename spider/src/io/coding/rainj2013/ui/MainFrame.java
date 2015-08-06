@@ -9,6 +9,7 @@ import javax.swing.UnsupportedLookAndFeelException;
 
 public class MainFrame extends JFrame {
 
+	private static final long serialVersionUID = 1L;
 	private JPanel mainPanel;
 
 	/**
@@ -36,7 +37,7 @@ public class MainFrame extends JFrame {
 	 */
 	public MainFrame() throws ClassNotFoundException, InstantiationException, IllegalAccessException, UnsupportedLookAndFeelException {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 740, 130);
+		setBounds(100, 100, 740, 200);
 		String lookAndFeel = "com.sun.java.swing.plaf.windows.WindowsLookAndFeel";
 		UIManager.setLookAndFeel(lookAndFeel);
 		mainPanel = new MainPanel();
